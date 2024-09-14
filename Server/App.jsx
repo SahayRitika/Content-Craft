@@ -4,7 +4,7 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const userModel = require('./models/user.jsx'); // Assuming you have a Mongoose model set up
+const userModel = require('./models/user.jsx'); 
 
 const app = express();
 
@@ -40,7 +40,7 @@ app.post('/create', (req, res) => {
           password: hash,
         });
 
-        const token = jwt.sign({ email }, 'shhhh'); // Replace 'shhhh' with your secret key
+        const token = jwt.sign({ email }, process.env.JWT_SECRET);
         res.cookie('token', token, { httpOnly: true });
         res.status(201).send(createdUser);
       } catch (error) {
@@ -60,7 +60,7 @@ app.post('/login', async (req, res) => {
 
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
-        const token = jwt.sign({ email: user.email }, 'shhhh');
+        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
         res.cookie('token', token, { httpOnly: true });
         res.send('Login successful');
       } else {
