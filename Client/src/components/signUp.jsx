@@ -28,7 +28,7 @@ function Signup() {
     e.preventDefault(); // Prevent default form submission
 
     try {
-      const response = await fetch('http://localhost:3000/create', {
+      const response = await fetch('https://content-craft.onrender.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
