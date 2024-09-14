@@ -14,7 +14,7 @@ function Login() {
 
     try {
       // Send POST request to the server
-      const response = await fetch('https://content-craft.onrender.com/', {
+      const response = await fetch('https://content-craft.onrender.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
