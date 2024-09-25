@@ -1,4 +1,4 @@
-// // src/components/Signup.jsx
+// src/components/Signup.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,7 +28,7 @@ function Signup() {
     e.preventDefault(); // Prevent default form submission
 
     try {
-      const response = await fetch('https://content-craft.onrender.com/create', {
+      const response = await fetch('/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -9,7 +9,7 @@ const userModel = require('./models/user.jsx');
 const app = express();
 
 // Middleware setup
-app.use(cors({ origin: ['http://localhost:5173', 'https://contentcraft01.netlify.app'], credentials: true })); // Allow requests from your React client
+app.use(cors({ origin: ['https://contentcraft01.netlify.app'], credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
