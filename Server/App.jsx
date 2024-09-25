@@ -28,10 +28,10 @@ app.post('/create', (req, res) => {
 
   // Encrypt the password before saving
   bcrypt.genSalt(10, (err, salt) => {
-    if (err) return res.status(500).send('Error generating salt');
+    if (err) return res.status(500).json({ error: 'Error generating salt' });
 
     bcrypt.hash(password, salt, async (err, hash) => {
-      if (err) return res.status(500).send('Error hashing password');
+      if (err) return res.status(500).json({ error: 'Error hashing password' });
 
       try {
         const createdUser = await userModel.create({
@@ -42,9 +42,9 @@ app.post('/create', (req, res) => {
 
         const token = jwt.sign({ email }, process.env.JWT_SECRET);
         res.cookie('token', token, { httpOnly: true });
-        res.status(201).send(createdUser);
+        res.status(201).json(createdUser);
       } catch (error) {
-        res.status(500).send('Error creating user');
+        res.status(500).json({ error: 'Error creating user' });
       }
     });
   });
