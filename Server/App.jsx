@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 
 // Middleware setup
-app.use(cors({ origin: 'https://contentcraft01.netlify.app/', credentials: true })); // Allow requests from your React client
+app.use(cors({ origin: 'https://contentcraft01.netlify.app', credentials: true })); // Allow requests from your React client
 // 'http://localhost:5173'
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
