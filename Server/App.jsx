@@ -2,14 +2,17 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const userModel = require('./models/user.jsx'); 
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+dotenv.config(); 
 
 const app = express();
 
 // Middleware setup
-app.use(cors({ origin: ['https://contentcraft01.netlify.app'], credentials: true }));
+app.use(cors({ origin: 'https://contentcraft01.netlify.app/', credentials: true })); // Allow requests from your React client
+// 'http://localhost:5173'
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -28,10 +31,10 @@ app.post('/create', (req, res) => {
 
   // Encrypt the password before saving
   bcrypt.genSalt(10, (err, salt) => {
-    if (err) return res.status(500).json({ error: 'Error generating salt' });
+    if (err) return res.status(500).send('Error generating salt');
 
     bcrypt.hash(password, salt, async (err, hash) => {
-      if (err) return res.status(500).json({ error: 'Error hashing password' });
+      if (err) return res.status(500).send('Error hashing password');
 
       try {
         const createdUser = await userModel.create({
@@ -40,11 +43,11 @@ app.post('/create', (req, res) => {
           password: hash,
         });
 
-        const token = jwt.sign({ email }, process.env.JWT_SECRET);
+        const token = jwt.sign({ email }, 'shhhhhhh'); 
         res.cookie('token', token, { httpOnly: true });
-        res.status(201).json(createdUser);
+        res.status(201).send(createdUser);
       } catch (error) {
-        res.status(500).json({ error: 'Error creating user' });
+        res.status(500).send('Error creating user');
       }
     });
   });
@@ -60,7 +63,7 @@ app.post('/login', async (req, res) => {
 
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
-        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
+        const token = jwt.sign({ email: user.email }, 'shhhh');
         res.cookie('token', token, { httpOnly: true });
         res.send('Login successful');
       } else {
